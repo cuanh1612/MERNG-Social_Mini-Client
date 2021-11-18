@@ -1,24 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
+import { Outlet } from 'react-router-dom'
+import 'semantic-ui-css/semantic.min.css'
+import Menubar from './components/menubar'
+
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <div className="container ui">
+        <Menubar />
+        <Outlet />
+      </div>
+    </AuthProvider>
   );
 }
 
