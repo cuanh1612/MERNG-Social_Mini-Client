@@ -25,7 +25,7 @@ const authLink = setContext(() => {
 })
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/graphql"
+  uri: "https://merng-social-appserver.herokuapp.com/graphql"
 })
 
 const client = new ApolloClient({
