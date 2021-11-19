@@ -32,8 +32,8 @@ const DELETE_POST_MUTATION = gql`
 `
 
 const FETCH_POSTS_QUERY = gql`
-    {
-        getPosts{
+    query($offset: Int!, $limit: Int!){
+        getPosts(offset: $offset, limit: $limit){
             id 
             body 
             createdAt 

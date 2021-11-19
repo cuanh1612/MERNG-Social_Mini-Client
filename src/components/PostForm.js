@@ -33,8 +33,8 @@ export default function CardPost() {
     `
 
     const FETCH_POSTS_QUERY = gql`
-        {
-            getPosts{
+        query($offset: Int!, $limit: Int!){
+            getPosts(offset: $offset, limit: $limit){
                 id 
                 body 
                 createdAt 
@@ -63,7 +63,9 @@ export default function CardPost() {
         update: (_, result) => {
             console.log(result);
         },
-        refetchQueries: [FETCH_POSTS_QUERY, "getPosts"],
+        refetchQueries: [FETCH_POSTS_QUERY, "getPosts", {
+            
+        }],
         onError(err) {
             setErrors(err.graphQLErrors[0].message)
         }

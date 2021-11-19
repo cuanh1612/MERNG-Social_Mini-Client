@@ -1,19 +1,19 @@
 
 import {
-  ApolloClient, ApolloProvider, InMemoryCache,
-  createHttpLink
+  ApolloClient, ApolloProvider, createHttpLink, InMemoryCache
 } from '@apollo/client';
+import { setContext } from "@apollo/client/link/context";
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import App from './App';
+import SinglePost from './components/SinglePost';
 import './index.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import reportWebVitals from './reportWebVitals';
-import PrivateRoute from './util/PrivateRoute'
-import { setContext } from "@apollo/client/link/context"
-import SinglePost from './components/SinglePost'
+import PrivateRoute from './util/PrivateRoute';
 
 const authLink = setContext(() => {
   const token = localStorage.getItem('jwtToken')
@@ -25,12 +25,20 @@ const authLink = setContext(() => {
 })
 
 const httpLink = createHttpLink({
-  uri: "https://merng-social-appserver.herokuapp.com/graphql"
+  uri: "http://localhost:5000/graphql"
 })
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          getPosts: offsetLimitPagination()
+        }
+      }
+    }
+  })
 })
 
 ReactDOM.render(
